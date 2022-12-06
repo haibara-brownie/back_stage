@@ -14,7 +14,11 @@
 
       <el-form-item prop="password">
         <svg-icon icon="password" class="svg-container"> </svg-icon>
-        <el-input v-model="form.password"> </el-input>
+        <el-input v-model="form.password" type="passwordType"> </el-input>
+        <svg-icon
+          :icon="passwordType === 'password' ? 'eye' : 'eye-open'"
+          @click="changeType"
+        ></svg-icon>
       </el-form-item>
       <el-button type="primary" class="login-button" @click="handleLogin">
         登陆
@@ -61,6 +65,15 @@ const handleLogin = () => {
       return false
     }
   })
+}
+
+const passwordType = ref('password')
+const changeType = () => {
+  if (passwordType.value === 'password') {
+    passwordType.value = 'text'
+  } else {
+    passwordType.value = 'password'
+  }
 }
 </script>
 
