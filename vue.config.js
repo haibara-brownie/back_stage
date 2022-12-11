@@ -1,6 +1,7 @@
 const AutoImport = require('unplugin-auto-import/webpack')
 const Components = require('unplugin-vue-components/webpack')
 const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
+
 const path = require('path')
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -8,6 +9,7 @@ function resolve(dir) {
 const webpack = require('webpack')
 
 module.exports = {
+  // lintOnSave: false,
   configureWebpack: (config) => {
     config.plugins.push(
       AutoImport({
@@ -20,6 +22,7 @@ module.exports = {
       })
     )
   },
+
   chainWebpack(config) {
     // 设置 svg-sprite-loader
     // config 为 webpack 配置对象
@@ -53,9 +56,7 @@ module.exports = {
       .end()
     config
       .plugin('ignore')
-      .use(
-        new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn$/)
-      )
+      .use(new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn$/))
     config.module
       .rule('icons')
       .test(/\.svg$/)
@@ -70,7 +71,7 @@ module.exports = {
   },
   devServer: {
     https: false,
-    hot: false,
+    // hotOnly: false,
     proxy: {
       '/api': {
         target: 'https://lianghj.top:8888/api/private/v1/',
@@ -81,16 +82,20 @@ module.exports = {
       }
     }
   },
+
   css: {
     loaderOptions: {
       sass: {
-        additionalData:
+        // 8版本用prependData:
+        prependData:
         `
-        @import "@/styles/variables.scss";
-        @import "@/styles/mixin.scss";
+          @import "@/styles/variables.scss";  // scss文件地址
+          @import "@/styles/mixin.scss";     // scss文件地址
         `
       }
     }
-  }
-
+  },
+  // publicPath: '/vue3.2/', //gitee远程库名
+  outputDir: 'dist/',
+  assetsDir: 'static/'
 }

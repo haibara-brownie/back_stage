@@ -1,38 +1,33 @@
-<!-- eslint-disable vue/multi-word-component-names -->
-<!-- eslint-disable no-trailing-spaces -->
 <template>
   <div class="login-container">
     <el-form ref="formRef" :model="form" class="login-form" :rules="rules">
       <div class="title-container">
-        <h3 class="title">用户登陆</h3>
+        <h3 class="title">{{ $t('login.title') }}</h3>
       </div>
-
       <el-form-item prop="username">
-        <svg-icon icon="user" class="svg-container"> </svg-icon>
-        <el-input v-model="form.username"> </el-input>
+        <svg-icon class="svg-container" icon="user"> </svg-icon>
+        <el-input v-model="form.username" />
       </el-form-item>
-
       <el-form-item prop="password">
-        <svg-icon icon="password" class="svg-container"> </svg-icon>
-        <el-input v-model="form.password" :type="passwordType"> </el-input>
+        <svg-icon class="svg-container" icon="password"> </svg-icon>
+        <el-input v-model="form.password" :type="passwordType" />
         <svg-icon
-          :icon="passwordType === 'password' ? 'eye' : 'eye-open'"
+          :icon="passwordType === 'password' ? 'eye' : 'eype-open'"
           @click="changeType"
         ></svg-icon>
       </el-form-item>
-      <el-button type="primary" class="login-button" @click="handleLogin">
-        登陆
-      </el-button>
+      <el-button type="primary" class="login-button" @click="handleLogin">{{
+        $t('login.btnTitle')
+      }}</el-button>
     </el-form>
   </div>
 </template>
 
 <script setup>
+// import { login } from '@/api/login'
 import { ref } from 'vue'
 import { useStore } from 'vuex'
 const store = useStore()
-// import { login } from '@/api/login'
-// import { Edit } from '@element-plus/icons-vue'
 const form = ref({
   username: 'admin',
   password: '123456'
@@ -46,7 +41,6 @@ const rules = ref({
       trigger: 'blur'
     }
   ],
-
   password: [
     {
       required: true,
@@ -60,10 +54,9 @@ const formRef = ref(null)
 const handleLogin = () => {
   formRef.value.validate(async (valid) => {
     if (valid) {
+      // const msg = await login(form.value)
+      // console.log(msg)
       store.dispatch('app/login', form.value)
-      // const res = await login(form.value)
-      // console.log(res)
-      // alert('submit!')
     } else {
       console.log('error submit!!')
       return false
@@ -123,6 +116,9 @@ $cursor: #fff;
         color: $light_gray;
         height: 47px;
         caret-color: $cursor;
+        input {
+          color: $light_gray;
+        }
       }
     }
     .login-button {
@@ -162,7 +158,7 @@ $cursor: #fff;
       font-weight: bold;
     }
 
-    :deep(lang-select) {
+    ::v-deep .lang-select {
       position: absolute;
       top: 4px;
       right: 0;

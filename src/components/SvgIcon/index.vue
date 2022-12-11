@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <svg class="svg-icon" aria-hidden="true">
     <use :xlink:href="iconName"></use>
